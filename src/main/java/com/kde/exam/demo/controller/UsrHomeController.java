@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // 주석? -> 이러한 클래스는 이러한 것을 하는 것이다라는 것을 알려주는 기능입니다. (점원!!)
 public class UsrHomeController {
+	private int count;
+	
+	UsrHomeController(){
+		count ++;
+	}
+	
 	@RequestMapping("usr/home/main")
 	@ResponseBody
 	public String showMain() {
@@ -22,5 +28,11 @@ public class UsrHomeController {
 	@ResponseBody
 	public String showMain3() {
 		return "또 만나요.";
+	}
+	
+	@RequestMapping("usr/home/main4")
+	@ResponseBody
+	public int showMain4() {
+		return count++;
 	}
 }
