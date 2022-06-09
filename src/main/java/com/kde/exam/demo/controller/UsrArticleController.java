@@ -23,25 +23,28 @@ public class UsrArticleController {
 
 	private void makeTestData() {
 		for (int id = 1; id <= 10; id++) {
-			id = articlesLastId + 1;
 			String title = "제목 "+ id;
 			String body = "내용 "+ id;
-			Article article = new Article(id, title, body);
-
-			articlesLastId = id;
-			articles.add(article);
+			
+			writeArticle(title, body);
 		}
 	}
-
-	@RequestMapping("/usr/article/doAdd")
-	@ResponseBody
-	public Article doAdd(String title, String body) {
+	
+	// 중복 제거 -> doAdd와 makeTestData의 중복을 제거
+	public Article writeArticle(String title, String body) {
 		int id = articlesLastId + 1;
 		Article article = new Article(id, title, body);
 
 		articlesLastId = id;
 		articles.add(article);
 
+		return article;
+	}
+
+	@RequestMapping("/usr/article/doAdd")
+	@ResponseBody
+	public Article doAdd(String title, String body) {
+		Article article = writeArticle(title, body);
 		return article;
 	}
 
