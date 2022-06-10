@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UsrHomeController {
 	@RequestMapping("usr/home/main")
 	@ResponseBody
-	public String getSring() {  
-		return "하이";
+	public String main() {  
+		return "안녕하세요";
 	}
 
 }
