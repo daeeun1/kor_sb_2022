@@ -1,70 +1,33 @@
 package com.kde.exam.demo.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.kde.exam.vo.Article;
 
-@Service // 얘 서비스야 하고 알려준 것 -> 객체 생성이라든지 이런걸 알려준다
-public class ArticleRepository {
-	// 인스턴스 변수 시작
-		private List<Article> articles;
-		private int articlesLastId;
-		// 인스턴스 변수 끈
+@Mapper
+public interface ArticleRepository {
+	// INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = ?, `body` = ?;
+	public Article writeArticle(String title, String body);
+	
+	// SELECT * FROM article WHERE id = ?
+	@Select("SELECT * FROM article WHERE id = #{id}")
+	public Article getArticle(@Param("id") int id);
 
-		// 생성자
-		public ArticleRepository() {
-			articles = new ArrayList<>();
-			articlesLastId = 0;
+	// DELETE FROM article WHERE id = ?
+	@Delete("DELETE FROM article WHERE id = #{id}")
+	public void deleteArticle(@Param("id") int id);
 
-		}
-		
-		public void makeTestData() {
-			for (int id = 1; id <= 10; id++) {
-				String title = "제목 " + id;
-				String body = "내용 " + id;
+	// UPDATE article SET title = ?, `body` = ?, updateDate = NOW() WHERE id = ?;
+	@Update("UPDATE article SET title = #{title}, `body` = #{body}, updateDate = NOW() WHERE id = #{id}")
+	public void modifyArticle(@Param("id") int id, @Param("title") String title,@Param("body") String body);
 
-				writeArticle(title, body);
-			}
-		}
-
-		// 중복 제거 -> doAdd와 makeTestData의 중복을 제거
-		public Article writeArticle(String title, String body) {
-			int id = articlesLastId + 1;
-			Article article = new Article(id, title, body);
-
-			articlesLastId = id;
-			articles.add(article);
-
-			return article;
-		}
-
-		public Article getArticle(int id) {
-			for (Article article : articles) {
-				if (article.getId() == id) {
-					return article;
-				}
-			}
-			return null;
-		}
-
-		public void deleteArticle(int id) {
-			Article article = getArticle(id);
-
-			articles.remove(article);
-		}
-
-		public void modifyArticle(int id, String title, String body) {
-			Article article = getArticle(id);
-
-			article.setTitle(title);
-			article.setBody(body);
-		}
-
-		public List<Article> getArticles() {
-			return articles;
-		}
-
+	// SELECT * FROM article ORDER BY id DESC;
+	@Select("SELECT * FROM article ORDER BY id DESC")
+	public List<Article> getArticles();
 }
