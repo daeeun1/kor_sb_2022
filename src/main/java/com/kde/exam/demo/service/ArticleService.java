@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kde.exam.demo.repository.ArticleRepository;
-import com.kde.exam.vo.Article;
+import com.kde.exam.demo.vo.Article;
 
 @Service // 얘 서비스야 하고 알려준 것 -> 객체 생성이라든지 이런걸 알려준다
 public class ArticleService {

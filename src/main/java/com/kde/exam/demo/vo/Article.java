@@ -1,4 +1,4 @@
-package com.kde.exam.vo;
+package com.kde.exam.demo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
